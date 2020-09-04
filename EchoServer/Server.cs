@@ -16,47 +16,19 @@ namespace EchoServer
             try
             {
 
-            int port = 7777;
-            IPAddress localAddress = IPAddress.Loopback;
+                int port = 7777;
+                IPAddress localAddress = IPAddress.Loopback;
 
-            server = new TcpListener(localAddress, port);
+                server = new TcpListener(localAddress, port);
 
-            server.Start();
+                server.Start();
 
                 Console.Write("Waiting for a connection........");
 
                 TcpClient client = server.AcceptTcpClient();
                 Console.WriteLine("Connected!");
 
-                Stream ns = client.GetStream();
-                StreamReader sr = new StreamReader(ns);
-                StreamWriter sw = new StreamWriter(ns);
-                sw.AutoFlush = true;
-
-                while (true)
-                {
-
-                    string message = sr.ReadLine();
-
-                    Console.WriteLine("Received message : " + message);
-
-                    if ( message.ToLower() == "luk" || message.ToLower() == "close")
-                    {
-
-                        sw.WriteLine("You're connection have been terminated");
-                        break;
-                    }
-                    else if(message != null)
-                    {
-                        sw.WriteLine(message.ToUpper());
-                    }
-
-                }
-
-             
-                ns.Close();
-
-                Console.WriteLine("net stream closed");
+                DoClient(client);
 
                 client.Close();
                 Console.WriteLine("client closed");
@@ -73,6 +45,39 @@ namespace EchoServer
             }
 
 
+        }
+
+        public static void DoClient(TcpClient socket)
+        {
+            Stream ns = socket.GetStream();
+            StreamReader sr = new StreamReader(ns);
+            StreamWriter sw = new StreamWriter(ns);
+            sw.AutoFlush = true;
+
+            while (true)
+            {
+
+                string message = sr.ReadLine();
+
+                Console.WriteLine("Received message : " + message);
+
+                if (message.ToLower() == "luk" || message.ToLower() == "close")
+                {
+
+                    sw.WriteLine("You're connection have been terminated");
+                    break;
+                }
+                else if (message != null)
+                {
+                    sw.WriteLine(message.ToUpper());
+                }
+
+            }
+
+
+            ns.Close();
+
+            Console.WriteLine("net stream closed");
         }
     }
 }

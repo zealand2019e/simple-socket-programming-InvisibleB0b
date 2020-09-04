@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
 
 namespace EchoServer
 {
@@ -6,8 +8,6 @@ namespace EchoServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
             Server.Start();
         }
     }

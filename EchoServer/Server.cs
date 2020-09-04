@@ -12,12 +12,26 @@ namespace EchoServer
 
         public static void Start()
         {
-            TcpListener server = null;
+
             try
             {
+                TcpListener server = null;
+
+                IPAddress localAddress = null;
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        Console.WriteLine(ip.ToString());
+
+                        localAddress = IPAddress.Parse(ip.ToString());
+
+                    }
+                }
 
                 int port = 7777;
-                IPAddress localAddress = IPAddress.Loopback;
+
 
                 server = new TcpListener(localAddress, port);
 
@@ -30,8 +44,6 @@ namespace EchoServer
 
                 DoClient(client);
 
-                client.Close();
-                Console.WriteLine("client closed");
 
                 server.Stop();
                 Console.WriteLine("server stopped");
@@ -78,6 +90,9 @@ namespace EchoServer
             ns.Close();
 
             Console.WriteLine("net stream closed");
+
+            socket.Close();
+            Console.WriteLine("client closed");
         }
     }
 }

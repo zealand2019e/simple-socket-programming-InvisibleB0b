@@ -46,12 +46,11 @@ namespace EchoServer
                         sw.WriteLine("You're connection have been terminated");
                         break;
                     }
-                    if (message != null)
+                    else if(message != null)
                     {
                         sw.WriteLine(message.ToUpper());
                     }
 
-                   
                 }
 
              

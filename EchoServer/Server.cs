@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Transactions;
 
 namespace EchoServer
 {
@@ -66,23 +67,44 @@ namespace EchoServer
             StreamWriter sw = new StreamWriter(ns);
             sw.AutoFlush = true;
 
+            sw.WriteLine("You are connected!!!");
+
             while (true)
             {
 
-                string message = sr.ReadLine();
+                sw.WriteLine("enter first numb");
 
-                Console.WriteLine("Received message : " + message);
+                string firstLine = sr.ReadLine();
 
-                if (message.ToLower() == "luk" || message.ToLower() == "close")
+                if (firstLine.ToLower().Contains("luk"))
                 {
-
-                    sw.WriteLine("You're connection have been terminated");
                     break;
                 }
-                else if (message != null)
-                {
-                    sw.WriteLine(message.ToUpper());
-                }
+
+                Console.WriteLine("Received message : " + firstLine);
+
+                sw.WriteLine("enter secound number");
+
+                string secoundLine = sr.ReadLine();
+
+                Console.WriteLine("Received message : " + secoundLine);
+
+                double result = Convert.ToDouble(firstLine) + Convert.ToDouble(secoundLine);
+
+                sw.WriteLine($"Your result is {result}");
+
+                //if (message.ToLower().Contains("luk") || message.ToLower().Contains("close"))
+                //{
+
+                //    sw.WriteLine("You're connection have been terminated");
+                //    break;
+                //}
+                //else if (message != null)
+                //{
+                //    sw.WriteLine(message.ToUpper());
+                //}
+
+
 
             }
 

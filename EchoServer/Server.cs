@@ -87,7 +87,24 @@ namespace EchoServer
 
                 double secound = Convert.ToDouble(message.Split(" ")[1]);
 
-                sw.WriteLine($"result : {first + secound}");
+                string third = message.Split(" ")[2].ToUpper();
+
+                switch (third)
+                {
+                    case "SUB":
+                        sw.WriteLine($"result : {first - secound}");
+                        break;
+                    case "PLU":
+                        sw.WriteLine($"result : {first + secound}");
+                        break;
+                    case "MUL":
+                        sw.WriteLine($"result : {first * secound}");
+                        break;
+                    case "DEV":
+                        sw.WriteLine($"result : {first / secound}");
+                        break;
+                }
+
 
 
 

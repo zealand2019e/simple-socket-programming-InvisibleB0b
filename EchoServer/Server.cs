@@ -31,14 +31,14 @@ namespace EchoServer
                     }
                 }
 
-                int port = 7777;
+                int port = 3001;
 
 
                 server = new TcpListener(localAddress, port);
 
                 server.Start();
 
-                Console.Write("Waiting for a connection........");
+                Console.WriteLine("Waiting for a connection........");
 
                 TcpClient client = server.AcceptTcpClient();
                 Console.WriteLine("Connected!");
@@ -72,42 +72,27 @@ namespace EchoServer
             while (true)
             {
 
-                sw.WriteLine("enter first numb");
 
-                string firstLine = sr.ReadLine();
 
-                if (firstLine.ToLower().Contains("luk"))
+                string message = sr.ReadLine();
+
+                if (message.ToLower().Contains("luk"))
                 {
                     break;
                 }
 
-                Console.WriteLine("Received message : " + firstLine);
+                Console.WriteLine("Received message : " + message);
 
-                sw.WriteLine("enter secound number");
+                double first = Convert.ToDouble(message.Split(" ")[0]);
 
-                string secoundLine = sr.ReadLine();
+                double secound = Convert.ToDouble(message.Split(" ")[1]);
 
-                Console.WriteLine("Received message : " + secoundLine);
-
-                double result = Convert.ToDouble(firstLine) + Convert.ToDouble(secoundLine);
-
-                sw.WriteLine($"Your result is {result}");
-
-                //if (message.ToLower().Contains("luk") || message.ToLower().Contains("close"))
-                //{
-
-                //    sw.WriteLine("You're connection have been terminated");
-                //    break;
-                //}
-                //else if (message != null)
-                //{
-                //    sw.WriteLine(message.ToUpper());
-                //}
+                sw.WriteLine($"result : {first + secound}");
 
 
 
             }
-
+            sw.WriteLine("Luk");
 
             ns.Close();
 

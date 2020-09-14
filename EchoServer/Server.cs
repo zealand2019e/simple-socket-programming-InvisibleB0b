@@ -4,6 +4,8 @@ using System.Text;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Transactions;
 
 namespace EchoServer
@@ -40,14 +42,29 @@ namespace EchoServer
 
                 Console.WriteLine("Waiting for a connection........");
 
-                TcpClient client = server.AcceptTcpClient();
-                Console.WriteLine("Connected!");
 
-                DoClient(client);
 
+
+                while (true)
+                {
+
+
+                    TcpClient client = server.AcceptTcpClient();
+                    Console.WriteLine("Connected!");
+
+                    Task.Run(() =>
+                    {
+                        TcpClient tempSocket = client;
+                        DoClient(tempSocket);
+                    });
+
+
+                }
 
                 server.Stop();
                 Console.WriteLine("server stopped");
+
+
 
 
             }
@@ -87,31 +104,35 @@ namespace EchoServer
                 Console.WriteLine("Received message : " + message);
 
 
+                Thread.Sleep(5000);
 
-                double first = Convert.ToDouble(message.Split(" ")[0]);
+                sw.WriteLine(message + $" number of send words {numOfWords}");
 
-                double secound = Convert.ToDouble(message.Split(" ")[1]);
 
-                string third = message.Split(" ")[2].ToUpper();
+                //double first = Convert.ToDouble(message.Split(" ")[0]);
 
-                switch (third)
-                {
-                    case "SUB":
-                        sw.WriteLine($"result : {first - secound} Number of words = {numOfWords}");
-                        break;
-                    case "PLU":
-                        sw.WriteLine($"result : {first + secound} Number of words = {numOfWords}");
-                        break;
-                    case "MUL":
-                        sw.WriteLine($"result : {first * secound} Number of words = {numOfWords}");
-                        break;
-                    case "DEV":
-                        sw.WriteLine($"result : {first / secound} Number of words = {numOfWords}");
-                        break;
-                    default:
-                        sw.WriteLine("Not a function");
-                        break;
-                }
+                //double secound = Convert.ToDouble(message.Split(" ")[1]);
+
+                //string third = message.Split(" ")[2].ToUpper();
+
+                //switch (third)
+                //{
+                //    case "SUB":
+                //        sw.WriteLine($"result : {first - secound} Number of words = {numOfWords}");
+                //        break;
+                //    case "PLU":
+                //        sw.WriteLine($"result : {first + secound} Number of words = {numOfWords}");
+                //        break;
+                //    case "MUL":
+                //        sw.WriteLine($"result : {first * secound} Number of words = {numOfWords}");
+                //        break;
+                //    case "DEV":
+                //        sw.WriteLine($"result : {first / secound} Number of words = {numOfWords}");
+                //        break;
+                //    default:
+                //        sw.WriteLine("Not a function");
+                //        break;
+                //}
 
 
 

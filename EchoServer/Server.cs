@@ -34,7 +34,7 @@ namespace EchoServer
                 int port = 3001;
 
 
-                server = new TcpListener(localAddress, port);
+                server = new TcpListener(IPAddress.Loopback, port);
 
                 server.Start();
 
@@ -68,6 +68,7 @@ namespace EchoServer
             sw.AutoFlush = true;
 
             sw.WriteLine("You are connected!!!");
+            int numOfWords = 0;
 
             while (true)
             {
@@ -81,7 +82,11 @@ namespace EchoServer
                     break;
                 }
 
+                numOfWords += message.Split(" ").Length;
+
                 Console.WriteLine("Received message : " + message);
+
+
 
                 double first = Convert.ToDouble(message.Split(" ")[0]);
 
@@ -92,16 +97,19 @@ namespace EchoServer
                 switch (third)
                 {
                     case "SUB":
-                        sw.WriteLine($"result : {first - secound}");
+                        sw.WriteLine($"result : {first - secound} Number of words = {numOfWords}");
                         break;
                     case "PLU":
-                        sw.WriteLine($"result : {first + secound}");
+                        sw.WriteLine($"result : {first + secound} Number of words = {numOfWords}");
                         break;
                     case "MUL":
-                        sw.WriteLine($"result : {first * secound}");
+                        sw.WriteLine($"result : {first * secound} Number of words = {numOfWords}");
                         break;
                     case "DEV":
-                        sw.WriteLine($"result : {first / secound}");
+                        sw.WriteLine($"result : {first / secound} Number of words = {numOfWords}");
+                        break;
+                    default:
+                        sw.WriteLine("Not a function");
                         break;
                 }
 

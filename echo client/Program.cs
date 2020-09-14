@@ -26,7 +26,7 @@ namespace echo_client
 
             Console.ReadKey();
 
-            TcpClient client = new TcpClient(localAddress, 3001);
+            TcpClient client = new TcpClient("localhost", 3001);
 
             Stream ns = client.GetStream();
             StreamReader sr = new StreamReader(ns);
@@ -35,7 +35,7 @@ namespace echo_client
 
             while (true)
             {
-                Console.WriteLine("enter two numbers seperated by space to ad them up");
+
 
                 string message = sr.ReadLine();
 
